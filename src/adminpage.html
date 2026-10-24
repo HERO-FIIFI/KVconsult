@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karlvest - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #8b026f 0%, #005bb5 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #8b026f 0%, #005bb5 100%);
+        }
+        
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-link:hover {
+            background: rgba(139, 2, 111, 0.1);
+        }
+        
+        .sidebar-link.active {
+            background: rgba(139, 2, 111, 0.2);
+            border-left: 4px solid #8b026f;
+        }
+        
+        .content-area {
+            transition: all 0.3s ease;
+        }
+        
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            background-color: #ef4444;
+            border-radius: 50%;
+        }
+        
+        .table-row:hover {
+            background-color: #f8fafc;
+        }
+        
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        /* Ensure sidebar is visible on desktop by default */
+        @media (min-width: 768px) {
+            .sidebar {
+                display: block !important;
+            }
+            .content-area {
+                margin-left: 16rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Login Page (Initially shown) -->
+    <div id="login-page" class="min-h-screen flex items-center justify-center bg-gray-50">
+        <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold gradient-text">KARLVEST</h1>
+                <p class="text-gray-600 mt-2">Admin Dashboard Login</p>
+            </div>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
+                    <input type="text" id="username" name="username" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                </div>
+                <div>
+                    <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
+                    <input type="password" id="password" name="password" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" name="remember" class="rounded text-purple-600 focus:ring-purple-500 mr-2">
+                        <label for="remember" class="text-gray-600 text-sm">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm text-purple-600 hover:text-purple-800">Forgot password?</a>
+                </div>
+                <button type="submit" class="gradient-bg text-white w-full py-3 rounded-lg font-bold hover:opacity-90 transition duration-300">
+                    Login <i class="fas fa-sign-in-alt ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard (Initially hidden) -->
+    <div id="admin-dashboard" class="hidden min-h-screen flex flex-col md:flex-row">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar w-64 bg-white shadow-md flex-shrink-0 hidden md:block">
+            <div class="p-4 border-b border-gray-200">
+                <h1 class="text-xl font-bold gradient-text">Admin Dashboard</h1>
+                <p class="text-sm text-gray-500">Welcome, <span id="admin-name">Admin</span></p>
+            </div>
+            <nav class="p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="sidebar-link active flex items-center p-3 rounded-lg text-gray-700" data-section="dashboard">
+                            <i class="fas fa-tachometer-alt mr-3 text-purple-600"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700" data-section="clients">
+                            <i class="fas fa-users mr-3 text-blue-600"></i>
+                            <span>Clients</span>
+                            <div class="notification-dot"></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700" data-section="opportunities">
+                            <i class="fas fa-bullhorn mr-3 text-green-600"></i>
+                            <span>Teaching Opportunities</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700" data-section="meetings">
+                            <i class="fas fa-calendar-alt mr-3 text-yellow-600"></i>
+                            <span>Meetings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700" data-section="documents">
+                            <i class="fas fa-file-alt mr-3 text-red-600"></i>
+                            <span>Documents</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700" data-section="reports">
+                            <i class="fas fa-chart-line mr-3 text-indigo-600"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700" data-section="settings">
+                            <i class="fas fa-cog mr-3 text-gray-600"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="mt-auto p-4 border-t border-gray-200">
+                <button id="logout-btn" class="w-full flex items-center justify-center p-3 rounded-lg text-gray-700 hover:bg-gray-100">
+                    <i class="fas fa-sign-out-alt mr-3 text-gray-600"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="content-area flex-1 overflow-auto">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <button id="sidebar-toggle" class="mr-4 text-gray-600 focus:outline-none md:hidden">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 id="section-title" class="text-xl font-semibold text-gray-800">Dashboard Overview</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="text-gray-600 hover:text-gray-800 focus:outline-none">
+                            <i class="fas fa-bell text-xl"></i>
+                            <div class="notification-dot"></div>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <button class="flex items-center focus:outline-none">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Admin" class="w-8 h-8 rounded-full">
+                            <span class="ml-2 text-gray-700">Admin</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content Sections -->
+            <main class="p-6">
+                <!-- Dashboard Section (Default) -->
+                <div id="dashboard-section" class="section-content">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-600">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm text-gray-500">Total Clients</p>
+                                    <h3 class="text-2xl font-bold text-gray-800 mt-1">142</h3>
+                                </div>
+                                <div class="bg-purple-100 p-3 rounded-full">
+                                    <i class="fas fa-users text-purple-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-green-500 mt-2"><i class="fas fa-arrow-up mr-1"></i> 12% from last month</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-600">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm text-gray-500">Active Opportunities</p>
+                                    <h3 class="text-2xl font-bold text-gray-800 mt-1">24</h3>
+                                </div>
+                                <div class="bg-blue-100 p-3 rounded-full">
+                                    <i class="fas fa-bullhorn text-blue-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-green-500 mt-2"><i class="fas fa-arrow-up mr-1"></i> 3 new this week</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-600">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm text-gray-500">Scheduled Meetings</p>
+                                    <h3 class="text-2xl font-bold text-gray-800 mt-1">8</h3>
+                                </div>
+                                <div class="bg-yellow-100 p-3 rounded-full">
+                                    <i class="fas fa-calendar-alt text-yellow-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-red-500 mt-2"><i class="fas fa-arrow-down mr-1"></i> 2 today</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-600">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm text-gray-500">Pending Documents</p>
+                                    <h3 class="text-2xl font-bold text-gray-800 mt-1">17</h3>
+                                </div>
+                                <div class="bg-green-100 p-3 rounded-full">
+                                    <i class="fas fa-file-alt text-green-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2"><i class="fas fa-minus mr-1"></i> No change</p>
+                        </div>
+                    </div>
+
+                    <!-- Recent Clients Section -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">Recent Clients</h3>
+                            <button class="text-sm text-purple-600 hover:text-purple-800 font-medium">
+                                View All <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Contact</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                                    <div class="text-sm text-gray-500">Math Teacher</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2 days ago</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-comment"></i></a>
+                                            <a href="#" class="text-green-600 hover:text-green-900"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/42.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Michael Brown</div>
+                                                    <div class="text-sm text-gray-500">Science Teacher</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1 week ago</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 30%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-comment"></i></a>
+                                            <a href="#" class="text-green-600 hover:text-green-900"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/33.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Amina Mohammed</div>
+                                                    <div class="text-sm text-gray-500">English Teacher</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3 days ago</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 90%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-comment"></i></a>
+                                            <a href="#" class="text-green-600 hover:text-green-900"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Meetings and Recent Opportunities -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Upcoming Meetings -->
+                        <div class="bg-white rounded-xl shadow-sm p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800">Upcoming Meetings</h3>
+                                <button id="schedule-meeting-btn" class="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium">
+                                    <i class="fas fa-plus mr-1"></i> Schedule
+                                </button>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-start p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                                    <div class="bg-blue-100 p-2 rounded-lg mr-4">
+                                        <i class="fas fa-video text-blue-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-800">CV Review Session</h4>
+                                        <p class="text-sm text-gray-600">With Sarah Johnson</p>
+                                        <div class="flex items-center mt-1 text-sm text-gray-500">
+                                            <i class="far fa-clock mr-1"></i>
+                                            <span>Today, 2:00 PM - Zoom</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-start p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                                    <div class="bg-purple-100 p-2 rounded-lg mr-4">
+                                        <i class="fas fa-phone text-purple-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-800">Interview Preparation</h4>
+                                        <p class="text-sm text-gray-600">With Michael Brown</p>
+                                        <div class="flex items-center mt-1 text-sm text-gray-500">
+                                            <i class="far fa-clock mr-1"></i>
+                                            <span>Tomorrow, 10:30 AM - Phone</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                                <div class="flex items-start p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                                    <div class="bg-green-100 p-2 rounded-lg mr-4">
+                                        <i class="fas fa-video text-green-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-800">Document Verification</h4>
+                                        <p class="text-sm text-gray-600">With Amina Mohammed</p>
+                                        <div class="flex items-center mt-1 text-sm text-gray-500">
+                                            <i class="far fa-clock mr-1"></i>
+                                            <span>Friday, 11:00 AM - Google Meet</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Opportunities -->
+                        <div class="bg-white rounded-xl shadow-sm p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800">Recent Opportunities</h3>
+                                <button id="add-opportunity-btn" class="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium">
+                                    <i class="fas fa-plus mr-1"></i> Add New
+                                </button>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-medium text-gray-800">Math Teacher - Dubai International School</h4>
+                                            <div class="flex items-center mt-1 text-sm text-gray-600">
+                                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                                <span>Dubai, UAE</span>
+                                            </div>
+                                        </div>
+                                        <span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Active</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="text-sm text-gray-500">Posted: 3 days ago</span>
+                                        <div class="flex space-x-2">
+                                            <button class="text-blue-600 hover:text-blue-800 text-sm"><i class="fas fa-edit mr-1"></i> Edit</button>
+                                            <button class="text-red-600 hover:text-red-800 text-sm"><i class="fas fa-trash mr-1"></i> Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-medium text-gray-800">Science Teacher - London Academy</h4>
+                                            <div class="flex items-center mt-1 text-sm text-gray-600">
+                                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                                <span>London, UK</span>
+                                            </div>
+                                        </div>
+                                        <span class="px-2 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 rounded-full">Pending</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="text-sm text-gray-500">Posted: 1 week ago</span>
+                                        <div class="flex space-x-2">
+                                            <button class="text-blue-600 hover:text-blue-800 text-sm"><i class="fas fa-edit mr-1"></i> Edit</button>
+                                            <button class="text-red-600 hover:text-red-800 text-sm"><i class="fas fa-trash mr-1"></i> Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 border border-gray-100 rounded-lg hover:bg-gray-50">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-medium text-gray-800">English Teacher - New York Public Schools</h4>
+                                            <div class="flex items-center mt-1 text-sm text-gray-600">
+                                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                                <span>New York, USA</span>
+                                            </div>
+                                        </div>
+                                        <span class="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Active</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <span class="text-sm text-gray-500">Posted: 2 weeks ago</span>
+                                        <div class="flex space-x-2">
+                                            <button class="text-blue-600 hover:text-blue-800 text-sm"><i class="fas fa-edit mr-1"></i> Edit</button>
+                                            <button class="text-red-600 hover:text-red-800 text-sm"><i class="fas fa-trash mr-1"></i> Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clients Section (Hidden by default) -->
+                <div id="clients-section" class="section-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">Client Management</h3>
+                            <button class="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-plus mr-1"></i> Add Client
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Progress</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                                    <div class="text-sm text-gray-500">Math Teacher</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">sarah.johnson@example.com</div>
+                                            <div class="text-sm text-gray-500">+1 (555) 123-4567</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-comment"></i></a>
+                                            <a href="#" class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/42.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Michael Brown</div>
+                                                    <div class="text-sm text-gray-500">Science Teacher</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">michael.brown@example.com</div>
+                                            <div class="text-sm text-gray-500">+1 (555) 987-6543</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 30%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-comment"></i></a>
+                                            <a href="#" class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/women/33.jpg" alt="">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">Amina Mohammed</div>
+                                                    <div class="text-sm text-gray-500">English Teacher</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">amina.mohammed@example.com</div>
+                                            <div class="text-sm text-gray-500">+1 (555) 456-7890</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 90%"></div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-comment"></i></a>
+                                            <a href="#" class="text-green-600 hover:text-green-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teaching Opportunities Section (Hidden by default) -->
+                <div id="opportunities-section" class="section-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">Teaching Opportunities</h3>
+                            <button id="add-opportunity-btn-2" class="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-plus mr-1"></i> Add New
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applications</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Math Teacher</div>
+                                            <div class="text-sm text-gray-500">Dubai International School</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
+                                                <span class="text-sm text-gray-900">Dubai, UAE</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">12</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Science Teacher</div>
+                                            <div class="text-sm text-gray-500">London Academy</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
+                                                <span class="text-sm text-gray-900">London, UK</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">5</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">English Teacher</div>
+                                            <div class="text-sm text-gray-500">New York Public Schools</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
+                                                <span class="text-sm text-gray-900">New York, USA</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">18</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meetings Section (Hidden by default) -->
+                <div id="meetings-section" class="section-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">Scheduled Meetings</h3>
+                            <button id="schedule-meeting-btn-2" class="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-plus mr-1"></i> Schedule New
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meeting</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">CV Review Session</div>
+                                            <div class="text-sm text-gray-500">Initial consultation</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/women/12.jpg" alt="">
+                                                <span class="text-sm text-gray-900">Sarah Johnson</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Today, 2:00 PM</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Zoom</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-video"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Interview Preparation</div>
+                                            <div class="text-sm text-gray-500">Mock interview</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/42.jpg" alt="">
+                                                <span class="text-sm text-gray-900">Michael Brown</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Tomorrow, 10:30 AM</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">Phone</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-phone"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Document Verification</div>
+                                            <div class="text-sm text-gray-500">Paperwork review</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/women/33.jpg" alt="">
+                                                <span class="text-sm text-gray-900">Amina Mohammed</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Friday, 11:00 AM</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Google Meet</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-purple-600 hover:text-purple-900 mr-3"><i class="fas fa-video"></i></a>
+                                            <a href="#" class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documents Section (Hidden by default) -->
+                <div id="documents-section" class="section-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">Client Documents</h3>
+                            <button class="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-plus mr-1"></i> Upload
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Document Card -->
+                            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div class="flex items-start">
+                                    <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                        <i class="fas fa-file-pdf text-blue-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-800">Sarah Johnson - CV.pdf</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Uploaded: 3 days ago</p>
+                                        <div class="flex space-x-3 mt-3">
+                                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm"><i class="fas fa-eye mr-1"></i> View</a>
+                                            <a href="#" class="text-purple-600 hover:text-purple-800 text-sm"><i class="fas fa-download mr-1"></i> Download</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Document Card -->
+                            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div class="flex items-start">
+                                    <div class="bg-green-100 p-3 rounded-lg mr-4">
+                                        <i class="fas fa-file-word text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-800">Michael Brown - Cover Letter.docx</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Uploaded: 1 week ago</p>
+                                        <div class="flex space-x-3 mt-3">
+                                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm"><i class="fas fa-eye mr-1"></i> View</a>
+                                            <a href="#" class="text-purple-600 hover:text-purple-800 text-sm"><i class="fas fa-download mr-1"></i> Download</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Document Card -->
+                            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div class="flex items-start">
+                                    <div class="bg-yellow-100 p-3 rounded-lg mr-4">
+                                        <i class="fas fa-file-image text-yellow-600"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-800">Amina Mohammed - Certificates.jpg</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Uploaded: 2 weeks ago</p>
+                                        <div class="flex space-x-3 mt-3">
+                                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm"><i class="fas fa-eye mr-1"></i> View</a>
+                                            <a href="#" class="text-purple-600 hover:text-purple-800 text-sm"><i class="fas fa-download mr-1"></i> Download</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Section (Hidden by default) -->
+                <div id="reports-section" class="section-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800">Reports & Analytics</h3>
+                            <button class="text-sm bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium">
+                                <i class="fas fa-download mr-1"></i> Export
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Chart 1 -->
+                            <div class="bg-white p-4 border border-gray-200 rounded-lg">
+                                <h4 class="font-medium text-gray-800 mb-4">Client Progress</h4>
+                                <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+                                    <p class="text-gray-500">[Chart would appear here]</p>
+                                </div>
+                            </div>
+                            <!-- Chart 2 -->
+                            <div class="bg-white p-4 border border-gray-200 rounded-lg">
+                                <h4 class="font-medium text-gray-800 mb-4">Opportunity Status</h4>
+                                <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+                                    <p class="text-gray-500">[Chart would appear here]</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section (Hidden by default) -->
+                <div id="settings-section" class="section-content hidden">
+                    <div class="bg-white rounded-xl shadow-sm p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-6">Settings</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <!-- Profile Settings -->
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-4">Profile Settings</h4>
+                                <form class="space-y-4">
+                                    <div>
+                                        <label for="profile-name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                        <input type="text" id="profile-name" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" value="Admin">
+                                    </div>
+                                    <div>
+                                        <label for="profile-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                        <input type="email" id="profile-email" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" value="admin@karlvest.com">
+                                    </div>
+                                    <div>
+                                        <label for="profile-password" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                                        <input type="password" id="profile-password" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Leave blank to keep current">
+                                    </div>
+                                    <button type="submit" class="gradient-bg text-white px-4 py-2 rounded-lg hover:opacity-90">Update Profile</button>
+                                </form>
+                            </div>
+                            <!-- Notification Settings -->
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-4">Notification Settings</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="notify-email" class="rounded text-purple-600 focus:ring-purple-500 mr-2" checked>
+                                        <label for="notify-email" class="text-sm text-gray-700">Email Notifications</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="notify-sms" class="rounded text-purple-600 focus:ring-purple-500 mr-2">
+                                        <label for="notify-sms" class="text-sm text-gray-700">SMS Notifications</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="notify-new-client" class="rounded text-purple-600 focus:ring-purple-500 mr-2" checked>
+                                        <label for="notify-new-client" class="text-sm text-gray-700">New Client Alerts</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="notify-meeting" class="rounded text-purple-600 focus:ring-purple-500 mr-2" checked>
+                                        <label for="notify-meeting" class="text-sm text-gray-700">Meeting Reminders</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- System Settings -->
+                            <div>
+                                <h4 class="font-medium text-gray-800 mb-4">System Settings</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="timezone" class="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
+                                        <select id="timezone" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                            <option value="UTC">UTC</option>
+                                            <option value="EST" selected>Eastern Time (EST)</option>
+                                            <option value="PST">Pacific Time (PST)</option>
+                                            <option value="GMT">GMT</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="date-format" class="block text-sm font-medium text-gray-700 mb-1">Date Format</label>
+                                        <select id="date-format" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                            <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="text-sm bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
+                                        <i class="fas fa-trash mr-1"></i> Clear All Data
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Schedule Meeting Modal -->
+    <div id="schedule-meeting-modal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-md">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Schedule New Meeting</h3>
+                    <button id="close-meeting-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="meeting-form" class="space-y-4">
+                    <div>
+                        <label for="meeting-title" class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                        <input type="text" id="meeting-title" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                    </div>
+                    <div>
+                        <label for="meeting-client" class="block text-sm font-medium text-gray-700 mb-1">Client</label>
+                        <select id="meeting-client" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                            <option value="">Select Client</option>
+                            <option value="1">Sarah Johnson</option>
+                            <option value="2">Michael Brown</option>
+                            <option value="3">Amina Mohammed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="meeting-date" class="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+                        <input type="datetime-local" id="meeting-date" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                    </div>
+                    <div>
+                        <label for="meeting-type" class="block text-sm font-medium text-gray-700 mb-1">Meeting Type</label>
+                        <select id="meeting-type" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                            <option value="zoom">Zoom</option>
+                            <option value="google-meet">Google Meet</option>
+                            <option value="phone">Phone Call</option>
+                            <option value="in-person">In Person</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="meeting-link" class="block text-sm font-medium text-gray-700 mb-1">Meeting Link/Details</label>
+                        <input type="text" id="meeting-link" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter meeting link or location">
+                    </div>
+                    <div>
+                        <label for="meeting-notes" class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                        <textarea id="meeting-notes" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" id="cancel-meeting" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+                        <button type="submit" class="gradient-bg text-white px-4 py-2 rounded-lg hover:opacity-90">Schedule Meeting</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Opportunity Modal -->
+    <div id="add-opportunity-modal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800">Add New Teaching Opportunity</h3>
+                    <button id="close-opportunity-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="opportunity-form" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="opportunity-title" class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                            <input type="text" id="opportunity-title" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g. Math Teacher" required>
+                        </div>
+                        <div>
+                            <label for="opportunity-school" class="block text-sm font-medium text-gray-700 mb-1">School/Institution</label>
+                            <input type="text" id="opportunity-school" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g. Dubai International School" required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="opportunity-country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                            <input type="text" id="opportunity-country" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g. UAE" required>
+                        </div>
+                        <div>
+                            <label for="opportunity-city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                            <input type="text" id="opportunity-city" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g. Dubai" required>
+                        </div>
+                        <div>
+                            <label for="opportunity-status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <select id="opportunity-status" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                                <option value="active">Active</option>
+                                <option value="pending">Pending</option>
+                                <option value="closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="opportunity-description" class="block text-sm font-medium text-gray-700 mb-1">Job Description</label>
+                        <textarea id="opportunity-description" rows="4" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required></textarea>
+                    </div>
+                    <div>
+                        <label for="opportunity-requirements" class="block text-sm font-medium text-gray-700 mb-1">Requirements</label>
+                        <textarea id="opportunity-requirements" rows="3" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" required></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="opportunity-salary" class="block text-sm font-medium text-gray-700 mb-1">Salary Range</label>
+                            <input type="text" id="opportunity-salary" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g. $3,000 - $4,500 per month">
+                        </div>
+                        <div>
+                            <label for="opportunity-deadline" class="block text-sm font-medium text-gray-700 mb-1">Application Deadline</label>
+                            <input type="date" id="opportunity-deadline" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="opportunity-benefits" class="block text-sm font-medium text-gray-700 mb-1">Benefits</label>
+                        <textarea id="opportunity-benefits" rows="2" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" id="cancel-opportunity" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+                        <button type="submit" class="gradient-bg text-white px-4 py-2 rounded-lg hover:opacity-90">Add Opportunity</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login functionality
+        const loginPage = document.getElementById('login-page');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const loginForm = document.getElementById('login-form');
+        
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation (in a real app, this would be a server-side check)
+            if (username === 'admin' && password === 'password123') {
+                loginPage.classList.add('hidden');
+                adminDashboard.classList.remove('hidden');
+                document.getElementById('admin-name').textContent = username;
+            } else {
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logout-btn');
+        logoutBtn.addEventListener('click', () => {
+            adminDashboard.classList.add('hidden');
+            loginPage.classList.remove('hidden');
+            document.getElementById('login-form').reset();
+        });
+        
+        // Sidebar toggle for mobile
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+        
+        // Active sidebar link and section switching
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+        const sectionContents = document.querySelectorAll('.section-content');
+        const sectionTitle = document.getElementById('section-title');
+        
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+
+                e.preventDefault();
+                sidebarLinks.forEach(link => link.classList.remove('active'));
+                link.classList.add('active');
+                
+                const targetSection = link.getAttribute('href').substring(1);
+                sectionContents.forEach(section => {
+                    if (section.id === targetSection) {
+                        section.classList.remove('hidden');
+                        sectionTitle.textContent = link.textContent;
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+            });
+        });
+        
+        // Schedule Meeting Modal
+        const scheduleMeetingBtn = document.getElementById('schedule-meeting-btn');
+        const scheduleMeetingModal = document.getElementById('schedule-meeting-modal');
+        const closeMeetingModalBtn = document.getElementById('close-meeting-modal');
+        
+        scheduleMeetingBtn.addEventListener('click', () => {
+            scheduleMeetingModal.classList.remove('hidden');
+        });
+        
+        closeMeetingModalBtn.addEventListener('click', () => {
+            scheduleMeetingModal.classList.add('hidden');
+        });
+        
+        // Add Opportunity Modal
+        const addOpportunityBtn = document.getElementById('add-opportunity-btn');
+        const addOpportunityModal = document.getElementById('add-opportunity-modal');
+        const closeOpportunityModalBtn = document.getElementById('close-opportunity-modal');
+        
+        addOpportunityBtn.addEventListener('click', () => {
+            addOpportunityModal.classList.remove('hidden');
+        });
+        
+        closeOpportunityModalBtn.addEventListener('click', () => {
+            addOpportunityModal.classList.add('hidden');
+        });
+    </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

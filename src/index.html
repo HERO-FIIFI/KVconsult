@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karlvest | Guiding Educators to International Job Success</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #641e8a 0%, #c73bf6 100%);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-blue-800">KARLVEST</div>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-blue-800 hover:text-blue-600 transition-all">Home</a>
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 transition-all">About</a>
+                    <a href="#services" class="text-gray-600 hover:text-blue-600 transition-all">Services</a>
+                    <a href="#opportunities" class="text-gray-600 hover:text-blue-600 transition-all">Opportunities</a>
+                    <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-all">Start Your Journey</a>
+                </div>
+                
+                <div class="md:hidden">
+                    <button class="text-gray-600 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient text-white py-20 md:py-32">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">Guiding Educators to International Job Success</h1>
+                    <p class="text-xl mb-8 opacity-90">CV checks, document verification, coaching, and access to global schools.</p>
+                    <div class="flex space-x-4">
+                        <a href="#contact" class="bg-white text-blue-600 px-8 py-3 rounded-md font-medium hover:bg-gray-100 transition-all">Start Your Journey</a>
+                        <a href="#services" class="border-2 border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white hover:text-blue-600 transition-all">Our Services</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Teachers in classroom" class="rounded-lg shadow-xl max-w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Teacher helping students" class="rounded-lg shadow-lg max-w-full h-auto">
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <h2 class="text-3xl font-bold text-blue-800 mb-6">About Karlvest</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Based in Accra, Karlvest specializes in preparing Ghanaian educators for successful international teaching careers. We understand the unique challenges teachers face when applying for positions abroad and provide comprehensive support throughout the entire process.
+                    </p>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Our personalized approach ensures each teacher receives tailored guidance to meet global standards. From document preparation to cultural orientation, we equip you with everything needed to stand out in the competitive international education market.
+                    </p>
+                    <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-600">
+                        <p class="text-blue-800 font-medium">
+                            <i class="fas fa-check-circle text-blue-600 mr-2"></i> Over 200 teachers successfully placed in international schools
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-blue-800 mb-4">Our 4-Step Preparation Process</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We guide you through every stage of your international teaching journey</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Service 1 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition-all">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-file-alt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">CV Review & Optimization</h3>
+                    <p class="text-gray-600 mb-4">We transform your CV to meet international standards, highlighting your strengths in ways that appeal to global recruiters.</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Formatting for international standards</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Keyword optimization for ATS systems</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Professional achievement highlighting</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition-all">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-certificate text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Document Verification</h3>
+                    <p class="text-gray-600 mb-4">We ensure all your credentials meet the stringent requirements of international school systems.</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Certification validation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Notarization and apostille services</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Translation services if needed</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition-all">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-comments text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Interview Coaching</h3>
+                    <p class="text-gray-600 mb-4">Master the art of international teaching interviews with our specialized coaching sessions.</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Mock interviews with feedback</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Cultural sensitivity training</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Salary negotiation strategies</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card bg-white p-8 rounded-lg shadow-md transition-all">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-globe text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">Job Placement</h3>
+                    <p class="text-gray-600 mb-4">Access our network of international schools looking for qualified teachers like you.</p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Exclusive job listings</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Direct school introductions</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-blue-600 mt-1 mr-2 text-sm"></i>
+                            <span>Relocation support</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- International Opportunities Section -->
+    <section id="opportunities" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-blue-800 mb-4">Global Teaching Opportunities</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We connect Ghanaian educators with schools across the world</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold text-blue-800 mb-6">Where Our Teachers Are Placed</h3>
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                            <span class="text-gray-700">United Kingdom</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                            <span class="text-gray-700">United Arab Emirates</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                            <span class="text-gray-700">Canada</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                            <span class="text-gray-700">China</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                            <span class="text-gray-700">Australia</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i>
+                            <span class="text-gray-700">South Africa</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-6 rounded-lg mb-8">
+                        <h4 class="font-bold text-blue-800 mb-3">Success Story</h4>
+                        <p class="text-gray-700 mb-4 italic">"Karlvest helped me secure a position at an international school in Dubai. Their document verification service saved me months of processing time, and their interview coaching gave me the confidence to excel."</p>
+                        <p class="text-blue-800 font-medium">- Michael A., Mathematics Teacher</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="World map with pins" class="rounded-lg shadow-lg w-full h-auto">
+                    <div class="mt-6 bg-gray-50 p-6 rounded-lg border-l-4 border-blue-600">
+                        <h4 class="font-bold text-blue-800 mb-3">Why International Schools Value Our Candidates</h4>
+                        <ul class="text-gray-700 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-blue-600 mt-1 mr-2"></i>
+                                <span>All documents pre-verified for authenticity</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-blue-600 mt-1 mr-2"></i>
+                                <span>Teachers prepared for international curricula (IB, British, American)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-blue-600 mt-1 mr-2"></i>
+                                <span>Candidates understand cultural adaptation challenges</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-blue-800 text-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">Start Your Global Teaching Journey</h2>
+                    <p class="text-blue-200 max-w-2xl mx-auto">Complete the form below and our team will contact you within 24 hours to begin your international teaching preparation</p>
+                </div>
+                
+                <form class="bg-white rounded-lg shadow-xl p-8 text-gray-800">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Full Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Email Address</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Phone Number</label>
+                            <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-gray-700 font-medium mb-2">Current Teaching Position</label>
+                            <input type="text" id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="message" class="block text-gray-700 font-medium mb-2">Your Goals for Teaching Abroad</label>
+                        <textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="terms" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300">
+                            </div>
+                            <label for="terms" class="ml-2 text-sm font-medium text-gray-700">I understand this is a professional paid service and agree to be contacted by Karlvest representatives</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-blue-600 text-white font-medium py-3 px-6 rounded-md hover:bg-blue-700 transition-all focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+                        Submit Application
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">KARLVEST</h3>
+                    <p class="text-gray-400">Empowering Ghanaian educators to achieve their international teaching aspirations through professional preparation and global connections.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-all">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-all">About Us</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-all">Services</a></li>
+                        <li><a href="#opportunities" class="text-gray-400 hover:text-white transition-all">Opportunities</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-all">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Contact Info</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-blue-600"></i>
+                            <span>123 Education Ave, Accra, Ghana</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-blue-600"></i>
+                            <span>+233 123 456 789</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-blue-600"></i>
+                            <span>info@karlvest.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-600 transition-all">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-400 transition-all">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-pink-600 transition-all">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-white hover:bg-blue-700 transition-all">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h5 class="font-medium mb-2">Subscribe to Our Newsletter</h5>
+                        <div class="flex">
+                            <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-md focus:outline-none text-gray-800 w-full">
+                            <button class="bg-blue-600 px-4 py-2 rounded-r-md hover:bg-blue-700 transition-all">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 Karlvest. All rights reserved. | Designed for Ghanaian educators</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const terms = document.getElementById('terms').checked;
+            
+            if (!name || !email || !terms) {
+                e.preventDefault();
+                alert('Please fill in all required fields and accept the terms.');
+            } else {
+                alert('Thank you for your application! A Karlvest representative will contact you shortly.');
+                // In a real implementation, you would submit the form data here
+            }
+        });
+        
+        // Mobile menu toggle would go here in a full implementation
+    </script>
+</body>
+</html>
